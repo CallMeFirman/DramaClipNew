@@ -1,5 +1,10 @@
 import * as React from 'react';
-import {Unggulan} from './src/screens';
+import { NavigationContainer } from '@react-navigation/native';
+import Router from './src/navigation/Router';
 export default function App() {
-  return <Unggulan />;
+  return (
+    <NavigationContainer>
+     <Router/>
+    </NavigationContainer>
+  );
 }

@@ -1,4 +1,5 @@
 import Beranda from "./Beranda";
 import Genre from "./Genre";
 import Unggulan from "./Unggulan";
-export {Beranda, Genre, Unggulan}
+import BlogDetail from "./BlogDetail";
+export {Beranda, Genre, Unggulan, BlogDetail}
