@@ -1,5 +1,7 @@
-import {StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
+import { Edit } from "iconsax-react-native";
+import { useNavigation } from "@react-navigation/native";
 import {BlogList} from '../../../data';
 import {ItemSmall} from '../../components'; 
 import {SearchNormal1} from 'iconsax-react-native';
@@ -34,7 +36,8 @@ const FlatListRecent = () => {
   );
 };
 const Unggulan = () => {
-  const recentBlog4 = BlogList.slice(0);
+  const recentBlog4 = BlogList.slice(0, 5);
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -50,9 +53,9 @@ const Unggulan = () => {
           ))}
         </View>
       </ScrollView>
-      <View>
-        <FlatListRecent />
-      </View>
+      <TouchableOpacity style={styles.floatingButton}onPress={() => navigation.navigate("AddBlog")}>
+      <Edit color={colors.white()} variant="Linear" size={20} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -92,6 +95,23 @@ header: {
     fontFamily: fontType['Pjs-Medium'],
     color: colors.black(0.5),
     lineHeight: 18,
+  },
+  floatingButton: {
+    backgroundColor: colors.blue(),
+    padding: 15,
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    borderRadius: 10,
+    shadowColor: colors.blue(),
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+
+    elevation: 8,
   },
 });
 const recent = StyleSheet.create({

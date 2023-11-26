@@ -1,5 +1,6 @@
-import {StyleSheet, Text, View, ScrollView, FlatList, Animated} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, FlatList, Animated, TouchableWithoutFeedback} from 'react-native';
 import React, {useRef} from 'react';
+import { useNavigation } from "@react-navigation/native";
 import {BlogList} from '../../../data';
 import   {ListHorizontal} from '../../components'; 
 import {SearchNormal1} from 'iconsax-react-native';
@@ -23,14 +24,17 @@ const Genre = () => {
     outputRange: [0, -60],
     extrapolate: 'clamp',
   });
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate("SearchPage")}>
       <Animated.View style={[styles.header, {transform: [{translateY: recentY}]}]}>
         <View style={styles.bar}>
           <SearchNormal1 size={18} color={colors.black()} variant="Linear" />
           <Text style={styles.placeholder}>Masukkan Genre</Text>
-        </View>
+        </View>     
       </Animated.View>
+      </TouchableWithoutFeedback>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         onScroll={Animated.event(
