@@ -1,3 +1,25 @@
+export const CategoryList = [
+  {
+    id: 1,
+    categoryName: 'Home',
+  },
+  {
+    id: 2,
+    categoryName: 'Unggulan',
+  },
+  {
+    id: 3,
+    categoryName: 'Genre List',
+  },
+  {
+    id: 4,
+    categoryName: 'Series List',
+  },
+  {
+    id: 5,
+    categoryName: 'Movie List',
+  },
+];
 export const BlogList = [
   {
   id: 1,
@@ -19,16 +41,7 @@ export const BlogList = [
   createdAt: 'Nov 10, 2023',
   totalComments: 60,
   totalLikes: 2000,
-  content: `Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.
-  Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.`,
+  content: `Drama ini berkisah tentang percintaan malaikat maut dengan seorang dokter. Mengusung genre fantasi romantis, tokoh dokter yang bernama Han Gye-jeol (Im Soo-hyang) ini digambarkan sebagai manusia yang punya kemampuan khusus.`,
   },
   {
   id: 3,

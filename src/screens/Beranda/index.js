@@ -1,23 +1,29 @@
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
-import {Element3} from 'iconsax-react-native';
+import React, {useState, useCallback} from 'react';
+import {ScrollView, StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator, RefreshControl} from 'react-native';
+import {AddSquare} from 'iconsax-react-native';
 import {BlogList, CategoryList} from '../../../data';
 import { fontType, colors } from '../../theme';
 import { ListHorizontal, ItemSmall } from '../../components';
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import {formatNumber} from '../../utils/formatNumber';
+import axios from 'axios';
 
-export default function Beranda() {
+const ListBlog = () => {
+  const horizontalData = BlogList.slice(0, 1);
+  const verticalData = BlogList.slice(1, 5);
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>DramaClip</Text>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={styles.listBlog}>
+        <ListHorizontal data={horizontalData} />
+        {/* <View style={styles.listCard}>
+          {verticalData.map((item, index) => (
+            <ItemSmall style={styles.card2} item={item} key={index} />
+          ))}
+        </View> */}
       </View>
-      <ListBlog />
-      <View style={styles.listCategory}>
-        <FlatListCategory />
-      </View>
-    </View>
+    </ScrollView>
   );
-}
+};
 
 const ItemCategory = ({item, onPress, color}) => {
   return (
@@ -54,27 +60,75 @@ const FlatListCategory = () => {
   );
 };
 
-const ListBlog = () => {
-  const horizontalData = BlogList.slice(0, 1);
-  const verticalData = BlogList.slice(1);
-  return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.listBlog}>
-        <ListHorizontal data={horizontalData} />
-        <View style={styles.listCard}>
-          {verticalData.map((item, index) => (
-            <ItemSmall item={item} key={index} />
-          ))}
-        </View>
-      </View>
-    </ScrollView>
+export default function Beranda() {
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
+  const [blogData, setBlogData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const getDataBlog = async () => {
+    try {
+      const response = await axios.get(
+        'https://657508c4b2fbb8f6509cdb93.mockapi.io/dramaclip/blog',
+      );
+      setBlogData(response.data);
+      setLoading(false)
+    } catch (error) {
+        console.error(error);
+    }
+  };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      getDataBlog()
+      setRefreshing(false);
+    }, 1500);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getDataBlog();
+    }, [])
   );
-};
+  
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>DramaClip</Text>
+        <TouchableOpacity
+          style={styles.floatingButton}
+          onPress={() => navigation.navigate("Tambah")}
+        >
+          <AddSquare color={colors.white()} variant="Linear" size={20} />
+        </TouchableOpacity>
+      </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: 24,
+          gap: 10,
+          paddingVertical: 20,
+        }} refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+          <ListBlog />
+          <View style={styles.listCard}>
+          {loading ? (
+            <ActivityIndicator size={'large'} color={colors.blue()} />
+          ) : (
+            blogData.map((item, index) => <ItemSmall style={styles.card2} item={item} key={index} />)
+          )}
+        </View>
+        </ScrollView>
+      
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white(),
+    backgroundColor: colors.darkModeBlack(),
   },
   header: {
     backgroundColor: colors.blue(0.7),
@@ -93,18 +147,26 @@ const styles = StyleSheet.create({
     color: colors.white(),
   },
   listCategory: {
-    paddingVertical: 15,
-    elevation : 10,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    elevation : 2,
     color: colors.blue(),
   },
   listBlog: {
-    paddingVertical: 20,
-    gap: 10,
+    paddingVertical: 2,
+    gap: 5,
+  },
+  card2: {
+    width: '50%',
   },
   listCard: {
-    paddingHorizontal: 24,
-    paddingVertical: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     gap: 20,
+    display : 'flex',
+    justifyContent: 'left',
+    flexDirection:'row',
+    flexWrap: 'wrap'
   },
 });
 const category = StyleSheet.create({

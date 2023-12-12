@@ -1,11 +1,10 @@
-import {StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, FlatList, TouchableWithoutFeedback} from 'react-native';
 import React from 'react';
-import { Edit } from "iconsax-react-native";
-import { useNavigation } from "@react-navigation/native";
 import {BlogList} from '../../../data';
 import {ItemSmall} from '../../components'; 
 import {SearchNormal1} from 'iconsax-react-native';
 import { fontType, colors } from '../../theme';
+import { useNavigation } from "@react-navigation/native";
 const data = [
   {id: 1, label: 'Drama teratas'},
   {id: 2, label: 'Series Terpopuler'},
@@ -40,12 +39,14 @@ const Unggulan = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.bar}>
-          <SearchNormal1 size={18} color={colors.black()} variant="Linear" />
-          <Text style={styles.placeholder}>Temukan Unggulan</Text>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate("Cari")}>
+        <View style={styles.header}>
+          <View style={styles.bar}>
+            <SearchNormal1 size={18} color={colors.black()} variant="Linear" />
+            <Text style={styles.placeholder}>Temukan Unggulan</Text>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.listCard}>
           {recentBlog4.map((item, index) => (
@@ -53,9 +54,7 @@ const Unggulan = () => {
           ))}
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.floatingButton}onPress={() => navigation.navigate("AddBlog")}>
-      <Edit color={colors.white()} variant="Linear" size={20} />
-      </TouchableOpacity>
+      
     </View>
   );
 };
@@ -63,12 +62,17 @@ export default Unggulan;
 const styles = StyleSheet.create({
   listCard: {
     paddingHorizontal: 24,
-    paddingBottom: 10,
-    gap: 10,
+    paddingVertical: 10,
+    gap: 20,
+    display : 'flex',
+    justifyContent: 'left',
+    flexDirection:'row',
+    flexWrap: 'wrap',
+    elevation: 2,
   },
   container: {
     flex: 1,
-    backgroundColor: colors.white(),
+    backgroundColor: colors.darkModeBlack(),
   },
 header: {
     backgroundColor: colors.blue(),
@@ -93,25 +97,8 @@ header: {
   placeholder: {
     fontSize: 14,
     fontFamily: fontType['Pjs-Medium'],
-    color: colors.black(0.5),
+    color: colors.white(0.5),
     lineHeight: 18,
-  },
-  floatingButton: {
-    backgroundColor: colors.blue(),
-    padding: 15,
-    position: 'absolute',
-    bottom: 24,
-    right: 24,
-    borderRadius: 10,
-    shadowColor: colors.blue(),
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-
-    elevation: 8,
   },
 });
 const recent = StyleSheet.create({

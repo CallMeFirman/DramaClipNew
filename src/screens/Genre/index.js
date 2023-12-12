@@ -1,9 +1,7 @@
-import {StyleSheet, Text, View, ScrollView, FlatList, Animated, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, FlatList, Animated} from 'react-native';
 import React, {useRef} from 'react';
-import { useNavigation } from "@react-navigation/native";
 import {BlogList} from '../../../data';
 import   {ListHorizontal} from '../../components'; 
-import {SearchNormal1} from 'iconsax-react-native';
 import { fontType, colors } from '../../theme';
 
 const data = [
@@ -24,17 +22,11 @@ const Genre = () => {
     outputRange: [0, -60],
     extrapolate: 'clamp',
   });
-  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate("SearchPage")}>
       <Animated.View style={[styles.header, {transform: [{translateY: recentY}]}]}>
-        <View style={styles.bar}>
-          <SearchNormal1 size={18} color={colors.black()} variant="Linear" />
-          <Text style={styles.placeholder}>Masukkan Genre</Text>
-        </View>     
+        <Text style={styles.title}>Daftar Genre</Text>
       </Animated.View>
-      </TouchableWithoutFeedback>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         onScroll={Animated.event(
@@ -64,7 +56,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: colors.white(),
+    backgroundColor: colors.darkModeBlack(),
   },
 header: {
     backgroundColor: colors.blue(),
@@ -98,8 +90,14 @@ header: {
     lineHeight: 18,
   },
   listBlog: {
-    paddingVertical: 20,
+    paddingVertical: 10,
     gap: 10,
+    flexDirection: 'column',
+  },
+  title: {
+    fontSize: 20,
+    fontFamily: fontType['Pjs-ExtraLight'],
+    color: colors.white(),
   },
 });
 const recent = StyleSheet.create({

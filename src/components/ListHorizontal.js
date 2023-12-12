@@ -2,11 +2,12 @@ import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Receipt21} from 'iconsax-react-native';
 import FastImage from 'react-native-fast-image';
-import {useNavigation} from '@react-navigation/native';
 import { fontType, colors } from '../theme';
+import {useNavigation} from '@react-navigation/native';
 const ItemHorizontal = ({item, variant, onPress}) => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={itemHorizontal.cardItem}>
+    <TouchableOpacity style={itemHorizontal.cardItem} onPress={() => navigation.navigate('BlogDetail', {blogId: item.id})}>
       <FastImage
         style={itemHorizontal.cardImage}
         source={{
@@ -18,21 +19,13 @@ const ItemHorizontal = ({item, variant, onPress}) => {
         <View style={itemHorizontal.cardContent}>
           <View style={itemHorizontal.cardInfo}>
             <Text style={itemHorizontal.cardTitle}>{item.title}</Text>
-            <Text style={itemHorizontal.cardText}>{item.createdAt}</Text>
-          </View>
-          <View>
-            <View style={itemHorizontal.cardIcon}>
-              <TouchableOpacity onPress={onPress}>
-                <Receipt21 color={colors.white()} variant={variant} size={20} />
-              </TouchableOpacity>
-            </View>
+            <Text style={itemHorizontal.cardText}>{item.content}</Text>
           </View>
         </View>
       </FastImage>
     </TouchableOpacity>
   );
 };
-const navigation = useNavigation();
 const ListHorizontal = ({data}) => {
   const [bookmark, setBookmark] = useState([]);
   const toggleBookmark = itemId => {
@@ -72,11 +65,12 @@ const itemHorizontal = StyleSheet.create({
   cardImage: {
     width: '100%',
     height: 200,
-    borderRadius: 15,
+    borderRadius: 5,
+    resizeMode: 'cover',
   },
   cardContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    justifyContent: 'center',
     padding: 15,
   },
   cardInfo: {

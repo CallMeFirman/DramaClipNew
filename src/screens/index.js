@@ -4,4 +4,5 @@ import Unggulan from "./Unggulan";
 import BlogDetail from "./BlogDetail";
 import Search from "./Search";
 import AddBlogForm from "./AddBlogForm";
-export {Beranda, Genre, Unggulan, BlogDetail, Search, AddBlogForm}
+import EditBlogForm from "./EditBlogForm";
+export {Beranda, Genre, Unggulan, BlogDetail, Search, AddBlogForm, EditBlogForm}
