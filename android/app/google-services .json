@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "353433220477",
+    "project_id": "dramaclip",
+    "storage_bucket": "dramaclip.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353433220477:android:b9c8e374427e60eac3c814",
+        "android_client_info": {
+          "package_name": "com.dramaclip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu2lOQmARmZ9HU--cDiLFsxudOz1h92Gc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,12 +1,13 @@
-import React, {useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {ScrollView, StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator, RefreshControl} from 'react-native';
 import {AddSquare} from 'iconsax-react-native';
+import FastImage from 'react-native-fast-image';
 import {BlogList, CategoryList} from '../../../data';
 import { fontType, colors } from '../../theme';
 import { ListHorizontal, ItemSmall } from '../../components';
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import {formatNumber} from '../../utils/formatNumber';
-import axios from 'axios';
+import firestore from '@react-native-firebase/firestore';
 
 const ListBlog = () => {
   const horizontalData = BlogList.slice(0, 1);
@@ -65,32 +66,41 @@ export default function Beranda() {
   const [loading, setLoading] = useState(true);
   const [blogData, setBlogData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const getDataBlog = async () => {
-    try {
-      const response = await axios.get(
-        'https://657508c4b2fbb8f6509cdb93.mockapi.io/dramaclip/blog',
-      );
-      setBlogData(response.data);
-      setLoading(false)
-    } catch (error) {
-        console.error(error);
-    }
-  };
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('blog')
+      .onSnapshot(querySnapshot => {
+        const blogs = [];
+        querySnapshot.forEach(documentSnapshot => {
+          blogs.push({
+            ...documentSnapshot.data(),
+            id: documentSnapshot.id,
+          });
+        });
+        setBlogData(blogs);
+        setLoading(false);
+      });
+    return () => subscriber();
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      getDataBlog()
+      firestore()
+        .collection('blog')
+        .onSnapshot(querySnapshot => {
+          const blogs = [];
+          querySnapshot.forEach(documentSnapshot => {
+            blogs.push({
+              ...documentSnapshot.data(),
+              id: documentSnapshot.id,
+            });
+          });
+          setBlogData(blogs);
+        });
       setRefreshing(false);
     }, 1500);
   }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      getDataBlog();
-    }, [])
-  );
-  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -119,8 +129,7 @@ export default function Beranda() {
             blogData.map((item, index) => <ItemSmall style={styles.card2} item={item} key={index} />)
           )}
         </View>
-        </ScrollView>
-      
+      </ScrollView>
     </View>
   );
 }

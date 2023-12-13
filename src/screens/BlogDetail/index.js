@@ -3,9 +3,10 @@ import React, {useState, useRef, useEffect} from 'react';
 import {ArrowLeft, Like1, Message, Share, More, Receipt21} from 'iconsax-react-native';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import { fontType, colors } from '../../theme';
 import {formatNumber} from '../../utils/formatNumber';
-import axios from 'axios';
 import ActionSheet from 'react-native-actions-sheet';
 
 const BlogDetail = ({route}) => {
@@ -27,35 +28,48 @@ const BlogDetail = ({route}) => {
   };
 
   useEffect(() => {
-    getBlogById();
+    const subscriber = firestore()
+      .collection('blog')
+      .doc(blogId)
+      .onSnapshot(documentSnapshot => {
+        const blogData = documentSnapshot.data();
+        if (blogData) {
+          console.log('Blog data: ', blogData);
+          setSelectedBlog(blogData);
+        } else {
+          console.log(`Blog with ID ${blogId} not found.`);
+        }
+      });
+    setLoading(false);
+    return () => subscriber();
   }, [blogId]);
-
-  const getBlogById = async () => {
+  const navigateEdit = () => {
+    closeActionSheet();
+    navigation.navigate('EditBlog', {blogId});
+  };
+  const handleDelete = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(
-        `https://657508c4b2fbb8f6509cdb93.mockapi.io/dramaclip/blog/${blogId}`,
-      );
-      setSelectedBlog(response.data);
-      setLoading(false);
+      await firestore()
+        .collection('blog')
+        .doc(blogId)
+        .delete()
+        .then(() => {
+          console.log('Blog dihapus!');
+        });
+      if (selectedBlog?.image) {
+        const imageRef = storage().refFromURL(selectedBlog?.image);
+        await imageRef.delete();
+      }
+      console.log('Blog dihapus!');
+      closeActionSheet();
+      setSelectedBlog(null);
+      setLoading(false)
+      navigation.navigate('beranda');
     } catch (error) {
       console.error(error);
     }
   };
-
-  const navigateEdit = () => {
-    closeActionSheet()
-    navigation.navigate('EditBlog', {blogId})
-  }
-  const handleDelete = async () => {
-   await axios.delete(`https://657508c4b2fbb8f6509cdb93.mockapi.io/dramaclip/blog/${blogId}`)
-      .then(() => {
-        closeActionSheet()
-        navigation.navigate('Beranda');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
   const navigation = useNavigation();
   const scrollY = useRef(new Animated.Value(0)).current;
